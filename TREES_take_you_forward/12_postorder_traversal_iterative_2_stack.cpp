@@ -16,30 +16,39 @@ public:
 	}
 };
 
-vector<int> preorder_it(Node* root)
+vector<int> postorder_2stack(Node* root)
 {
-    vector<int> v;
-    if(root==NULL)
-        return v;
-    stack<Node*> s;
-    s.push(root);
-    while(!s.empty())
-    {
-        Node* node;
-        node=s.top();
-        s.pop();
-        v.push_back(node->data);
-        if(node->right!=NULL)
-            s.push(node->right);
-        if(node->left!=NULL)
-            s.push(node->left);
-    }
-    return v;
+	stack<Node*> s1;
+	stack<int> s2;
+	vector<int> v;
+
+	if(root==NULL)
+		return v;
+	
+	s1.push(root);
+	while(!s1.empty())
+	{
+		Node* temp=s1.top();
+		s1.pop();
+		s2.push(temp->data);
+		if(temp->left!=NULL)
+			s1.push(temp->left);
+		if(temp->right!=NULL)
+			s1.push(temp->right);
+	}
+	while(!s2.empty())
+	{
+		int value = s2.top();
+		s2.pop();
+		v.push_back(value);
+	}
+	return v;
 }
 
 int main()
 {
 	Node* root = new Node(1);
+
 	root->left = new Node(2);
 	root->right = new Node(3);
 	root->left->left = new Node(4);
@@ -53,9 +62,8 @@ int main()
           4     7
          / \  
          5  6 */ 
-
-    vector<int> ans=preorder_it(root);
-    for(auto it: ans)
-        cout<<it<<" ";
+	vector<int> ans= postorder_2stack(root);
+	for(auto it: ans)
+		cout<<it<<" ";
 	return 0;
 }
