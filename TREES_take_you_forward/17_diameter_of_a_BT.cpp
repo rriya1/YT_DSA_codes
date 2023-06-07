@@ -18,27 +18,37 @@ public:
 
 int dia =0;
 
-int length(Node* root)
+
+// int length(Node* root)
+// {
+//     if(root==NULL)
+//         return 0;
+//     int lh=length(root->left);
+//     int rh=length(root->right);
+//     return max(lh,rh)+1;
+// }
+
+// void diameter(Node* root)
+// {
+//     if(root==NULL)
+//         return ;
+//     int lh=length(root->left);
+//     int rh=length(root->right);
+//     dia=max(dia,lh+rh);
+//     diameter(root->left);
+//     diameter(root->right);
+// }
+
+//combining the working of the above 2 function into only 1 function
+int diameter(Node* root)
 {
     if(root==NULL)
-        return 0;
-    int lh=length(root->left);
-    int rh=length(root->right);
+        return 0  ;
+    int lh=diameter(root->left);
+    int rh=diameter(root->right);
+    dia=max(dia,lh+rh); //this time the diameter consists of the number of paths, if diameter is number of nodes then justdo lh+rh+1;
     return max(lh,rh)+1;
 }
-
-void diameter(Node* root)
-{
-    if(root==NULL)
-        return ;
-    diameter(root->left);
-    diameter(root->right);
-    int lh=length(root->left);
-    int rh=length(root->right);
-    dia=max(dia,lh+rh);
-}
-
-
 
 int main()
 {
@@ -58,8 +68,8 @@ int main()
          / \  
          5  6 */ 
     
-    diameter(root);
-    cout<<dia;
-
+    int height = diameter(root);
+    cout<<height<<endl;
+    cout<<dia;//this is the answer
 	return 0;
 }
