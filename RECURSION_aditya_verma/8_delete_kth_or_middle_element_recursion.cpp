@@ -1,7 +1,8 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-void del(stack<int>&,int,int);
+void del(stack<int>&,int);
+//void del(stack<int>&,int,int);
 void print_stack(stack<int>&);
 
 int main()
@@ -22,7 +23,8 @@ int main()
     cout<<"stack before the deletion: "<<endl;
     print_stack(s);
     int k=size-pos+1;
-    del(s,pos,k);
+    //del(s,pos,k);
+    del(s,pos);
     cout<<endl<<"stack after deletion: "<<endl;
     print_stack(s);
     return 0;
@@ -41,15 +43,33 @@ void print_stack(stack<int> &v)
     v.push(x);
 }
 
-void del(stack<int>&s,int index,int k)
+//my method of using size
+// void del(stack<int>&s,int index,int k)
+// {
+//     if(s.size()==k)
+//     {
+//         s.pop();
+//         return;
+//     }
+//     int val=s.top();
+//     s.pop();
+//     del(s,index-1,k);
+//     s.push(val);
+// }
+
+//aditya verma method
+void del(stack<int>&s,int k)
 {
-    if(s.size()==k)
-    {
-        s.pop();
+    if(s.empty())
         return;
-    }
+    if(k==1)
+        {
+            s.pop();
+            return;
+        }
     int val=s.top();
     s.pop();
-    del(s,index-1,k);
+    del(s,k-1);
     s.push(val);
+    return;
 }

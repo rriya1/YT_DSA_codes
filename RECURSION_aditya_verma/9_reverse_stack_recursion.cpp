@@ -3,7 +3,7 @@ using namespace std;
 
 void reverse(stack<int> &);
 void print(stack<int>);
-void insert(stack<int>&,int);
+void insert_at_bottom(stack<int>&,int);
 
 int main()
 {
@@ -31,14 +31,14 @@ void reverse(stack<int> &s)
     {
         return;
     }
-    int temp=s.top();
+    int temp=s.top(); //the top element will get inserted at the bottom after stack gets reversed
     s.pop();
     reverse(s);
-    insert(s,temp);
+    insert_at_bottom(s,temp);
     return;
 }
 
-void insert(stack<int>&s,int ele)
+void insert_at_bottom(stack<int>&s,int ele)
 {
     if(s.size()==0)
     {
@@ -47,7 +47,7 @@ void insert(stack<int>&s,int ele)
     }
     int temp=s.top();
     s.pop();
-    insert(s,ele);
+    insert_at_bottom(s,ele);
     s.push(temp);
     return;
 }
