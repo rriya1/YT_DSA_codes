@@ -31,6 +31,7 @@ int main()
         s.push_back(out);
         return;
     }
+    //when adding opening brackets
     if(open!=0)
     {
         string out1=out;
@@ -38,6 +39,7 @@ int main()
         //open--;
         solve(open-1,close,out1,s);
     }
+    //when adding closing brackets
     if(open<close)
     {
         string out2=out;

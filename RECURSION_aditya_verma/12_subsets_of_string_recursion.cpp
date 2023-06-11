@@ -34,7 +34,8 @@ void print_string(string s,int size)
         return;
     }
     char val=s[size-1];
-    s.pop_back();
+    s.pop_back(); //deletes from the last of the string
+    //s,erase(s.begin()+0) //to dlete from the start of the string
     print_string(s,s.length());
     cout<<val;
     return;
