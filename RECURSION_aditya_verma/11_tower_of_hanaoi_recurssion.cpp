@@ -1,3 +1,4 @@
+//solved
 //how to print steps, cant print em right ;-;
 #include<bits/stdc++.h>
 using namespace std;
