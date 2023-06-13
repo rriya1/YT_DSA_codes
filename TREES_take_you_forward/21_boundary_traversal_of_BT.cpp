@@ -1,104 +1,147 @@
-
+//{ Driver Code Starts
 #include <bits/stdc++.h>
 using namespace std;
+#define MAX_HEIGHT 100000
 
-class Node 
+// Tree Node
+struct Node
 {
-public:
-	int data;
-	Node* left;
-	Node* right;
-
-	Node(int val)
-	{
-		data = val;
-		left = NULL;
-		right = NULL;
-	}
+    int data;
+    Node* left;
+    Node* right;
 };
 
-//same as striver
-bool leafnode(Node* node)
+// Utility function to create a new Tree Node
+Node* newNode(int val)
 {
-    if(node->left==NULL && node->right==NULL)
-        return true;
-    //cout<<"1";
-    return false;
+    Node* temp = new Node;
+    temp->data = val;
+    temp->left = NULL;
+    temp->right = NULL;
+
+    return temp;
 }
 
 
-void reverse(vector<int> &v)
+// Function to Build Tree
+Node* buildTree(string str)
 {
-    int size=v.size();
-    //cout<<size<<endl;
-    for(int i=0;i<size/2;i++)
-    {
-        int temp=v[i];
-        v[i]=v[size-i-1];
-        v[size-i-1]=temp;
+    // Corner Case
+    if(str.length() == 0 || str[0] == 'N')
+        return NULL;
+
+    // Creating vector of strings from input
+    // string after spliting by space
+    vector<string> ip;
+
+    istringstream iss(str);
+    for(string str; iss >> str; )
+        ip.push_back(str);
+
+    // Create the root of the tree
+    Node* root = newNode(stoi(ip[0]));
+
+    // Push the root to the queue
+    queue<Node*> queue;
+    queue.push(root);
+
+    // Starting from the second element
+    int i = 1;
+    while(!queue.empty() && i < ip.size()) {
+
+        // Get and remove the front of the queue
+        Node* currNode = queue.front();
+        queue.pop();
+
+        // Get the current node's value from the string
+        string currVal = ip[i];
+
+        // If the left child is not null
+        if(currVal != "N") {
+
+            // Create the left child for the current node
+            currNode->left = newNode(stoi(currVal));
+
+            // Push it to the queue
+            queue.push(currNode->left);
+        }
+
+        // For the right child
+        i++;
+        if(i >= ip.size())
+            break;
+        currVal = ip[i];
+
+        // If the right child is not null
+        if(currVal != "N") {
+
+            // Create the right child for the current node
+            currNode->right = newNode(stoi(currVal));
+
+            // Push it to the queue
+            queue.push(currNode->right);
+        }
+        i++;
     }
-   return;
+
+    return root;
 }
 
-//to get left nodes, the one written by me..idk why its not working
-// void left_nodes(Node* node,vector<int> &v)
-// {
-//     if(leafnode(node))
-//         return;
-//     v.push_back(node->data);
-//     if(node->left==NULL)
-//         left_nodes(node->right,v);
-//     else
-//         left_nodes(node->left,v);
-//     return;
-// }
 
-//code by striver
-void left_nodes(Node* node, vector<int> &v)
+
+
+
+
+
+
+
+// } Driver Code Ends
+/* A binary tree Node
+struct Node
 {
-    Node* curr=node;
-    while(curr)
+    int data;
+    Node* left, * right;
+}; */
+
+class Solution {
+public:
+    vector <int> boundary(Node *root)
     {
-        if(!leafnode(curr))
-            v.push_back(curr->data);
-        if(curr->left!=NULL)
-            curr=curr->left;
-        else
-            curr=curr->right;
-    }
-}
+        //Your code here
+    vector<int> ans;
+    if(root==NULL)
+        return ans;
 
+    vector<int> left;
+    if(root->left!=NULL)
+        left_nodes(root->left,left);
 
-//to get  right nodes, the one written by me...idk why its not working
-// void right_nodes(Node* node,vector<int> &v)
-// {
-//     if(leafnode(node) || node==NULL)
-//         return ;
-//     v.push_back(node->data);
-//     if(node->right==NULL)
-//         right_nodes(node->left,v);
-//     else
-//         right_nodes(node->right,v);
-//     return;
-// }
-
-//the one by striver
-void right_nodes(Node* node, vector<int> &v)
-{
-    Node* curr=node;
-    while(curr)
+    vector<int> right;
+    if(root->right!=NULL)
     {
-        if(!leafnode(curr))
-            v.push_back(curr->data);
-        if(curr->right!=NULL)
-            curr=curr->right;
-        else
-            curr=curr->left;
+        right_nodes(root->right,right);
+        reverse(right.begin(),right.end());
     }
-}
+        
 
-//to get leaf nodes
-void leaf_nodes(Node* node,vector<int> &v)
+    vector<int> leaf;
+    leaf_nodes(root,leaf);
+    
+    
+    ans.push_back(root->data);
+    for(auto it: left)
+        ans.push_back(it);
+    if(!(root->left==NULL && root->right==NULL))
+        {
+            for(auto it: leaf)
+            ans.push_back(it);
+        }
+    for(auto it: right)
+        ans.push_back(it);
+    return ans;
+    }
+    
+    void leaf_nodes(Node* node,vector<int> &v)
 {
     if(leafnode(node))
     {
@@ -113,64 +156,64 @@ void leaf_nodes(Node* node,vector<int> &v)
     return;
 }
 
-
-
-
-//same as striver
-vector<vector<int>> boundary(Node* root)
+void right_nodes(Node* node, vector<int> &v)
 {
-    vector<vector<int>> ans;
-    if(root==NULL)
-        return ans;
-
-    vector<int> left;
-    left_nodes(root->left,left);
-
-    vector<int> right;
-    right_nodes(root->right,right);
-
-    vector<int> leaf;
-    leaf_nodes(root,leaf);
-    
-    reverse(right); //because right nodes go from bottom to top
-    // for(auto value: left)
-    //     cout<<value<<" ";
-    //     for(auto value: leaf)
-    //     cout<<value<<" ";
-    //     for(auto value: right)
-    //     cout<<value<<" ";
-    ans.push_back({root->data});
-    ans.push_back(left);
-    ans.push_back(leaf);
-    ans.push_back(right);
-    return ans;
+    Node* curr=node;
+    while(curr)
+    {
+        if(!leafnode(curr))
+            v.push_back(curr->data);
+        if(curr->right!=NULL)
+            curr=curr->right;
+        else
+            curr=curr->left;
+    }
+    return;
 }
 
-
-int main()
+void left_nodes(Node* node, vector<int> &v)
 {
-	Node* root = new Node(1);
-
-	root->left = new Node(2);
-	root->right = new Node(3);
-	root->left->left = new Node(4);
-    root->left->left->left=new Node(5);
-    root->left->left->right=new Node(6);
-    root->right->left = new Node(7);
-    /*       1
-            /  \
-            2   3
-           / \  / \
-          4     7
-         / \  
-         5  6 */ 
-  
-  vector<vector<int>> b=boundary(root);
-  for(auto row: b)
-  {
-    for(auto value: row)
-        cout<<value<<" ";
-  }
-    
-	return 0;
+    Node* curr=node;
+    while(curr)
+    {
+        if(!leafnode(curr))
+            v.push_back(curr->data);
+        if(curr->left!=NULL)
+            curr=curr->left;
+        else
+            curr=curr->right;
+    }
+    return;
 }
+
+bool leafnode(Node* node)
+{
+    if(node->left==NULL && node->right==NULL)
+        return true;
+    //cout<<"1";
+    return false;
+}
+};
+
+//{ Driver Code Starts.
+
+/* Driver program to test size function*/
+
+int main() {
+    int t;
+    string tc;
+    getline(cin, tc);
+    t=stoi(tc);
+    while(t--)
+    {
+        string s ,ch;
+        getline(cin, s);
+        Node* root = buildTree(s);
+        Solution ob;
+        vector <int> res = ob.boundary(root);
+        for (int i : res) cout << i << " ";
+        cout << endl;
+    }
+    return 0;
+}
+// } Driver Code Ends
