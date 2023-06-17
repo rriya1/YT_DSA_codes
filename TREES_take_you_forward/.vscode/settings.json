@@ -3,6 +3,7 @@
         "xtr1common": "cpp",
         "vector": "cpp",
         "utility": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "queue": "cpp"
     }
 }
