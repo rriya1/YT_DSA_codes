@@ -77,7 +77,7 @@ int main()
 {
     vector<int> inorder,postorder;
     int insize,postsize;
-    cout<<"enter the inorder and preorder vectors"<<endl;
+    cout<<"enter the inorder and postorder vectors"<<endl;
     cout<<"inorder size: ";
     cin>>insize;
     for(int i=0;i<insize;i++)
